@@ -1,13 +1,12 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "PawnBase.h"
 #include "Components/CapsuleComponent.h"
 
 // Sets default values
 APawnBase::APawnBase()
 {
- 	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
 	CapsuleComponent = CreateDefaultSubobject<UCapsuleComponent>(TEXT("Capsule Collider"));
@@ -21,5 +20,29 @@ APawnBase::APawnBase()
 
 	ProjectileSpawnPoint = CreateDefaultSubobject<USceneComponent>(TEXT("Projectile Spawn Point"));
 	ProjectileSpawnPoint->SetupAttachment(TurretMesh);
+}
 
+void APawnBase::RotateTurret(FVector LookAtTarget)
+{
+
+	FVector LookAtTargetClean = FVector(LookAtTarget.X, LookAtTarget.Y, TurretMesh->GetComponentLocation().Z);
+	FVector StartLocation = TurretMesh->GetComponentLocation();
+
+	FRotator TurretRotation = FVector(FVector(LookAtTargetClean - StartLocation)).Rotation();
+	TurretMesh->SetWorldRotation(TurretRotation);
+}
+
+void APawnBase::Fire()
+{
+	UE_LOG(LogTemp, Warning, TEXT("Fire The Tank!!"));
+	// Get ProjectileSpawnPoint Location && Rotation -> Spawn at location towards rotation
+}
+
+void APawnBase::HandleDestruction()
+{
+	// Death Effect
+
+	// PawnTurret -> Destroy()
+
+	// PawnTank -> Hide()
 }
